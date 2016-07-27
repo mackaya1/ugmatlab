@@ -1,0 +1,735 @@
+\documentclass[12pt]{report}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper}    
+
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareMathOperator{\Tr}{Tr}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[toc,page]{appendix}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{verbatimbox}
+\usepackage[square,numbers]{natbib}
+\usepackage{url}
+\usepackage[framed]{mcode}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tcolorbox}
+
+\linespread{1.5}
+
+\title{MATLAB - An Introduction for Mathematicians}
+\author{Scott Morgan}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction - The Matlab Interface}
+
+\begin{itemize}
+\item Matlab is a computational software package originally written by numerical analyst Clive Moler in the 1970s. 
+\item Unlike other programming languages used in numerical computations like Fortran and C++, Matlab makes use of highly developed external libraries and functions which allows you to relieve yourself of many of the mundane tasks associated with programming. For example, Matlab has built in functions that can calculate matrix inverses, products and eigenvalues. All of these things would have to be hard-coded into a Fortran program, eating up time that could be spent on more important issues. 
+\item With a very readable and easy to navigate interface, Matlab is a great starting tool for anyone interested in programming. 
+\item Although it has many qualities, nothing is perfect and what it gains in usability it loses on computational time. A program written in Fortran or C++ will run a lot faster in general than the same program written in Matlab, something which may be of concern for very large programs. However, this is most certainly not of concern here, and all of the programs written in this course take only a fraction of a second to run on a workstation.
+\item It should be noted that these notes are designed only as a companion to the classes which they accompany - a student should not expect to gain any insight from these notes without attending class.
+\item E-mail corrections and/or comments are always welcome and can be directed to \url{MorganSN@cardiff.ac.uk}
+\end{itemize}
+
+
+\subsection*{Installing Matlab}
+
+\begin{itemize}
+\item It would be superfluous to repeat the already thorough installation guidelines present on the MathWorks website, found here: \\
+\small \url{http://uk.mathworks.com/help/install/ug/install-mathworks-software.html}
+\normalsize
+\item A student Matlab subscription is currently £29\footnote{Correct as of 19/07/2016} and is highly worth the spend. If you are currently a postgraduate student at Cardiff then you can get the academic license key for installation on your home computer from Paul Jewell (M/0.10 - \url{jewellp@cardiff.ac.uk}) for free.
+\item If you would rather not pay then you can either use Matlab at any of the workstations around the university, available through \textit{Cardiff Apps}, or you can use GNU Octave.
+\item GNU Octave is an open-source version of Matlab which uses many of the similar commands. However, as with everything in life, you get what you pay for and thus, Octave is buggy, slow and lacking certain features that may make your life a misery.
+\item Installing Octave can also be a pain, although it is described in detail on the web at \url{https://www.gnu.org/software/octave/download.html}. If you are stuck with the installation, email \url{MorganSN@cardiff.ac.uk} and I'll help in any way I can.
+\item Installing octave on Ubuntu is easy and can be accomplished with
+\begin{lstlisting}[language=bash]
+  $ sudo add-apt-repository ppa:octave/stable
+  $ sudo apt-get update
+  $ sudo apt-get install octave
+\end{lstlisting}
+\end{itemize}
+
+\subsection*{Using Matlab for the first time}
+
+\begin{itemize}
+\item On opening Matlab for the first time you should be presented with a window similar to this:
+\begin{figure}[h]		
+	\centering
+	\includegraphics[width=1\textwidth]{matlab.png} 
+    \caption*{}
+\end{figure}
+\item The main window in the centre is the \textit{command window} and contains the \textit{command prompt}. You can enter commands directly at the command prompt and Matlab will give some sort of output. The left hand side shows the current directory and the folder structure. This will be important later.
+\item Calculations can be carried out in the usual way and follow the usual rules for ordering of operations. The figure below shows some example commands. You should also note now that the \textit{workspace} on the right hand side contains a new value. This \textit{ans} variable takes the value of the last entered command - in this case, $5.75$.
+\begin{figure}[h]		
+	\centering
+	\includegraphics[width=1\textwidth]{matlabcalc.png} 
+    \caption*{}
+\end{figure}
+\item While in theory you can work entirely in the command window, in practise this will get very untidy very quickly and so most of the calculations we will do will be inside what are called \textit{scripts}.
+\item Scripts are basically text files which can be \textit{called} from inside the command window. Follow the procedure below to create a script.
+\begin{itemize}
+\item In the top left corner of the screen, click the yellow plus sign above the word \textit{new}.
+\item Click script.
+\item A window called \textit{Editor} should now appear above the command window, with the script named as \textit{untitled}.
+\item To use the script, type a calculation into the Editor and save the file \textit{in the current directory} as \textit{test.m}
+\item The script is then \textit{called} in the command window by writing 
+\begin{lstlisting}
+>> test
+\end{lstlisting} 
+at the prompt. The figure below shows the process.
+\begin{figure}[h]		
+	\centering
+	\includegraphics[width=1\textwidth]{matlabscript.png} 
+    \caption*{}
+\end{figure}
+\end{itemize}
+\item Now that you know the basic ideas behind creating a script and running commands in Matlab, you can start to have a play around with the interface. Matlab has lots of built in functions like \textit{sin, cos, tan, exp, log, abs, pi, sqrt} and many more. The best resource by far is Google! If you think Matlab may have a built in function that you want to use then chances are it does.
+\item The command 
+\begin{lstlisting}
+>> demo
+\end{lstlisting} 
+is a great place to start learning about what everything does.
+\end{itemize}
+
+\subsection*{Remarks}
+
+\begin{itemize}
+\item Before we start getting into the basics of coding, there are a few remarks to make.
+\begin{itemize}
+\item There is more than one way to write a program! People have \textit{styles}, as you'll begin to see soon. If your program is different to mine then that's not a problem - you will develop your own way of doing things, your own way of naming things and as long as you're consistent with yourself then it won't matter. Someone once described it to me as learning a language, but with an accent - we can all understand each other but we say things in a slightly different way! It's like that with programming, don't be worried if your program looks different - if the results are the same it shouldn't matter too much.
+\item \textit{However}, that being said, you should always strive to write code that is \textit{readable by another person}! You should always write comments explaining what complicated lines do and write your algorithms in a coherent way. This is not exclusive to your code being readable by someone else either - if you write a code and don't look at it for a few months, if it's not properly commented and explained then you will not have any idea what it does the next time you look at it! This has happened to me so many times that I am determined to not let you make that mistake.
+\end{itemize}
+\item A \textit{comment} in Matlab is achieved with the \textit{\%} sign:
+\begin{lstlisting}
+>> 3 + 4; %this is a comment - it won't alter the result
+\end{lstlisting} 
+\item Using a semi-colon will \textit{suppress} the output of the command - and the answer will not be printed to the command prompt.
+\end{itemize}
+
+\section*{Basic Coding Ideas}
+
+\subsection*{Variables}
+
+\begin{itemize}
+\item You can assign a value to a \textit{variable} in the following way
+%
+\begin{lstlisting}
+>> x = 3; %assigns the value 3 to the variable x
+\end{lstlisting}
+%
+This will give the variable \textit{x} the value 3, which can then be used in future calculations such as
+%
+\begin{lstlisting}
+>> x = 3; %assigns the value 3 to he variable x
+>> 3 + x %uses the assigned value in the calculation 3+x 
+ans =
+	6
+\end{lstlisting}
+%
+These values will remain until they are overwritten or \textit{cleared}. You can clear specific variables using the \textit{clear} command.
+%
+\begin{lstlisting}
+>> x = 3;
+>> 3 + x
+ans =
+	6
+>> clear x;
+\end{lstlisting}
+%
+Trying to use the variable \textit{x} again will result in an error.
+
+\item Unlike many other programming languages such as VB, Fortran or C++, there is no need to \textit{declare} variables to have a certain \textit{type} in Matlab. Matlab will automatically figure out whether you are specifying an integer, a real number or a complex number. 
+
+\item Variables can be named any combination of letters and numbers both lower case and upper case but must start with a letter. 
+
+\item You can see the variables which are currently stored by Matlab in the \textit{workspace}. Alternatively, you can see the same information by running the command
+%
+\begin{lstlisting}
+>> whos
+\end{lstlisting}
+%
+\end{itemize}
+
+\subsection*{Loops}
+
+If there is nothing else you take from this document, let the thing you learn be how to use \textit{for} loops and \textit{if} statements. These are central to most programs you will write during this course and usually play an important role in many other programs.
+
+The very simple example below illustrates what these statements do.
+
+\begin{lstlisting}
+for j = 1:10
+	j %display the value assigned to j at each point in the loop
+end
+
+for j = 1:10
+	if j == 5
+		j + 3 %if j = 5, display the value 8 - i.e. 5+3
+	elseif j == 6
+		j + 1 %if j = 6, display 7 - i.e. 6+1
+	else
+		j %if j is not equal to 5 or 6, display j
+	end
+end
+
+\end{lstlisting}
+
+\subsubsection{Remarks on Loops}
+
+\begin{itemize}
+\item You can use any variable you like as a loop counter name, although most people use $i$ or $j$. However, care must be taken when doing this. Matlab recognises $i$ and $j$ to mean complex $i$ unless they are user-defined first (i.e. at the start of a loop). Therefore, standard Matlab practise is to use $1i$ as complex $i$ and allow you to change the value of $i$ in a loop. If you want to input a complex number in Matlab, you should write it like this
+\begin{lstlisting}
+>>> 2 + 1i
+\end{lstlisting}
+\item Inside an if statement you can use several identities to check for conditions. The main ones are 
+\begin{itemize}
+\item $==$ (is equal to)
+\item $\sim =$ (is not equal to)
+\item $>=$ $>$ (is greater than or equal to, is greater than, similar for less than)
+\end{itemize}
+\item There is another type of loop called a \textit{while} loop. These are similar to for loops but are particularly advantageous when you don't know how many iterations you need to end the loop. An example is below and one will need to be used in the tasks that follow.
+\clearpage
+\begin{lstlisting}
+j = 1; %initialsise the variable j to have value 1
+while j <= 10 %loop until j reaches 10
+    j %output j at each step
+    j = j + 1; %add one to j and loop again
+end
+\end{lstlisting}
+\end{itemize}
+
+\begin{tcolorbox}[title=Task]
+  Write a script that will loop through the numbers 1 to $N$ and print out all numbers that are a multiple of 3. 
+  \tcblower
+  You may find the following useful.
+  \begin{lstlisting}
+  >> help mod
+  \end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task]
+  Write a script that will print out the first $N$ Fibonacci numbers.
+  \tcblower
+  \textit{Extension:} Look on Google for ways to format your output so that it's quickly readable.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task]
+  Write a script that will check the Collatz\footnote{This is an open problem - no one has proved it for all $N\in\mathbb{N}$} conjecture for some number $N$.
+  \tcblower
+  \textit{The Collatz conjecture goes like this: 
+  \begin{enumerate}
+  \item Pick a number.
+  \item If the number is even, halve it.
+  \item If the number is odd, multiply it by $3$ and add $1$.
+  \item Conjecture: the sequence will always reach $1$ in a finite number of steps.
+  \end{enumerate}}
+\end{tcolorbox}
+
+\subsection*{Plotting}
+\begin{itemize}
+\item There are an overwhelming amount of possibilities that Matlab offers with regard to plotting functions - just describing it could be a course of its own. Therefore, in the interest of concision, I will only outline the absolute basic way of plotting here. You will pick up more points as you play around, but for now just see the following:
+\begin{lstlisting}
+  >> x = linspace(0,1,10); %generates grid of 10 points in [0,1]
+  >> y = sin(x); %evaluates sin(x) at each of the 10 points 
+  >> plot(x,y) %plots
+\end{lstlisting}
+\end{itemize}
+
+\begin{tcolorbox}[title=Task - Quick]
+  Plot the graph of $y = \cos(3x)$. Experiment with changing the value of the number of points plotted across. Plot the graph with circles at each point instead of a line using
+  \begin{lstlisting}
+    >> plot(x,y,'o')
+  \end{lstlisting}
+\end{tcolorbox}
+
+\subsection*{Vectors \& Arrays}
+\begin{itemize}
+\item Matlab stores vectors in a very intuitive way and there are several ways to create them.
+\begin{lstlisting}
+>> u = [1 3 6]; %gives row vector containing 1, 3 and 6
+>> v = 1:4; %gives row vector containing integers 1,2,3,4
+>> w = 1:2:9; %gives row vector containing 1,3,5,7,9
+>> for j = 1:4
+		p(j) = j+1; %gives row vector containing 2,3,4,5
+   end
+\end{lstlisting}
+\item The elements of the vector can be accessed by the notation $v(j)$, where $v$ is your variable name and $j$ is the number of the index you want to access. Note that Matlab indexing \textit{starts} at $1$. It is never possible to access $v(0)$.
+\item Therefore, we can get the value $9$ from $w$ by typing 
+\begin{lstlisting}
+>> w(5)
+ans = 9
+\end{lstlisting}
+\item Column vectors can be defined as transposes of row vectors or with the notation
+\begin{lstlisting}
+>> c = [1; 3; 5]; %note semi-colons. Row vectors are r = [1 3 5];
+\end{lstlisting}
+\item The transpose operation is 
+\begin{lstlisting}
+>> c' %this will trasnform a row into column and vice-versa
+\end{lstlisting}
+\end{itemize}
+
+\begin{tcolorbox}[title=Task]
+  Use your previous Fibonacci program to plot the convergence of the ratio of successive terms to the golden ratio.
+  \tcblower
+  It can be shown that $\frac{F_{n+1}}{F_{n}} \to \frac{1 + \sqrt{5}}{2} =: \varphi$ as $n \to \infty$. You program should plot both the ratio calculated and the value $\varphi$ on the same axis.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task]
+  Use your previous Collatz program to plot the route of the sequence to its final value $1$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task - Difficult]
+  Write a script that will count and list the number of primes less than a given number $N$. This is called $\pi(x)$.
+  \tcblower
+  Extension: Compare your answer with the estimates $\pi(x) \approx n/log(n)$ and $\pi(x) \approx Li(x) := \int_0^n \frac{dt}{ln(t)}$. \textit{Hint: Matlab has a built in function for $Li$ called logint}. \textit{Hint: To check that a number $P$ is prime, you only need to check divisibility by numbers up to $\sqrt{P}$}
+\end{tcolorbox}
+
+\clearpage
+
+\section*{Matlab Specific Coding Ideas}
+
+\subsection*{Functions}
+
+\begin{itemize}
+\item Until now, everything you have written has been in the form of a \textit{script}. While that is useful, many programs will require the use of \textit{functions}.
+\item A function contains parts of a code that need to be called in several places, to save you having to repeat code several times. The syntax and an example is below
+\begin{lstlisting}
+function c = myfunction(a,b) %function inputs a,b - outputs c
+	ans = a*b; %multiplies a and b - stores in c
+end
+\end{lstlisting}
+\item The function is then called from the command prompt as
+\begin{lstlisting}
+>> c = myfunction(3,2)
+c = 
+	6
+\end{lstlisting}
+\item This function should be written in a script and saved with the \textit{same name as the function} in the current directory.
+\end{itemize}
+
+\begin{tcolorbox}[title=Task]
+  Go back through your programs and change them into functions, with $N$ as an input wherever possible.
+\end{tcolorbox}
+
+\subsection*{Matrices}
+
+\begin{itemize}
+\item One of Matlab's huge advantages over its competitors is the way it handles operations with matrices. 
+\item There are some immensely powerful tools that make many matrix calculations simple in Matlab that are very difficult to implement in some other programming languages. 
+\item For example, Matlab has inbuilt commands for matrix multiplication, inversion, calculating eigenvalues, solving systems of equations, creating diagonal matrices, determinants and many many more. Before you go any further, think of what it would take to write a program for any of these things. Could you write a code that calculates the eigenvalues of any given matrix?
+\item Matrices are formed in Matlab to a very similar way to vectors, and simply take two indices in an intuitive way
+\begin{lstlisting}
+for i = 1:N
+	for j = 1:N
+		A(i,j) = %some condition on the entries of A
+	end
+end
+\end{lstlisting}
+\item The elements of $A$ are then accessed similarly to vectors. For example, $A(1,3)$ will give you the entry in the 1st row and 3rd column of $A$.
+\item Some standard commands are explained below. If there is a command which I've missed that you think should exist - chances are it probably does. Google is the answer!
+\begin{lstlisting}
+>> det(A); %determinant
+>> inv(A); %inverse
+>> A'; %transpose
+>> A*B; %multiplication (note #columns of A = #rows of B)
+>> A.*B; %Hadamard (entrywise) multiplication
+>> ones(10); %creates a 10x10 matrix of ones
+>> zeros(3,4); %creates a 3x4 matrix of zeros
+>> diag(1:4); %a 4x4 diagonal matrix with 1 to 4 on the diagonal
+>> eye(3); %the 3x3 identity matrix 
+>> rand(3,2); %a 3x2 matrix of random numbers
+\end{lstlisting}
+\end{itemize}
+
+\begin{tcolorbox}[title=Task - Quick]
+	 Write a script that will create an $N \times N$ identity matrix using for loops and if statements. Check against eye(N).
+\end{tcolorbox}
+
+\subsection*{Systems of Linear Equations}
+
+\begin{itemize}
+\item Matlab has a particularly powerful tool for solving systems of equations called \textit{mldivide}, more commonly known simply as \textit{backslash}.
+\item Given an matrix $A$ and a right hand side vector $b$, the solution vector $x$ which solves $Ax = b$ is calculated simply by
+\begin{lstlisting}
+>> A = rand(10); b = rand(10,1);
+>> x = A\b;
+\end{lstlisting}
+\item Of course for this example the following would be equivalent
+\clearpage
+\begin{lstlisting}
+>> A = rand(10); b = rand(10,1);
+>> x = inv(A)*b;
+\end{lstlisting}
+but this is considered bad practise as there is no need to calculate the inverse to solve the problem - leading to an increase in computational time. If you try to solve the problem in this way, Matlab will shout a warning.
+\item Backslash can also be used to solve over- and under- determined systems of equations in a similar way and uses least-squares fitting to do so. It is a very powerful tool which has made Matlab very popular for matrix operations.
+\item The command
+\begin{lstlisting}
+>> help mldivide
+\end{lstlisting}
+will give a good explanation of the methods used and the best practice usage of this operator.
+\begin{tcolorbox}[title=Task]
+	Solve the system of equations 
+	\begin{align*}
+	3x + 4y + 7z &= 32 \\
+	x + 5y + 2z &= 17 \\
+	2x + y + z &= 7
+	\end{align*}
+	and compare the time taken between backslash and inverse multiplication.
+	\tcblower
+	To measure the time taken by a script (in this case called \textit{test.m}), use the following
+	\begin{lstlisting}
+	>> tic, test; toc
+	\end{lstlisting}
+\end{tcolorbox}
+\item Hopefully the following example will convince you to use backslash! 
+\begin{lstlisting}
+>> A = diag(rand(5000,1)); b = rand(5000,1);
+>> tic, x = inv(A)*b; toc
+Elapsed time is 30.292078 seconds.
+>> tic, x = A\b; toc
+Elapsed time is 0.040788 seconds.
+\end{lstlisting}
+\end{itemize}
+
+\subsection*{Eigenvalues \& Eigenvectors}
+
+\begin{itemize}
+	\item Another important feature of Matlab's matrix capabilities is its ability to calculate eigenvalues and eigenvectors of matrices.
+	\item Given a matrix $A$, the eigenvalues and eigenvectors can be calculated simply using
+	\begin{lstlisting}
+	>> [V,D] = eig(A);
+	\end{lstlisting}
+	\item This effectively solves the problem
+	\begin{displaymath}
+	Av = \lambda v
+	\end{displaymath}
+	and stores the vectors $v$ in $V$ and the corresponding eigenvalues $\lambda$ along the diagonals of the diagonal matrix $D$.
+	\item Time-permitting, we may revisit this later in the course, but for now it is useful to just know that it exists.
+\end{itemize}
+
+\section*{Some More Advanced Ideas - with Applications in Applied Mathematics}
+
+\begin{itemize}
+	\item The following section will be organised into four/five distinct parts. We may not have time to cover them all, but they will be included for reference anyway.
+	\begin{enumerate}
+		\item Numerical integration via the trapezium rule.
+		\item Solving linear ODEs with inbuilt functions.
+		\item Newton's method for root-finding.
+		\item Simple finite difference solutions to ODEs.
+		\item A brief introduction to spectral methods.
+	\end{enumerate}
+	\item Note that this course is NOT intended to be about the mathematical justification of the methods involved. We will likely be sloppy with assumptions and not get too heavily involved in the analysis. Take me at my word for now that these methods are valid - the MAGIC course on Numerical Analysis as well as Prof. Phillips' MMath course on CFD will reinforce the ideas presented here if the interested student would like to know more.
+\end{itemize}
+
+\subsection*{Numerical Integration}
+
+\begin{itemize}
+	\item Matlab has a useful inbuilt function for calculating integrals via the trapezium rule called \textit{trapz}. Example usage can be found via
+	\begin{lstlisting}
+	>> help trapz
+	\end{lstlisting}
+	\begin{tcolorbox}[title=Task]
+		Write a function which will integrate some input function $y$ over a user-defined interval $[a,b]$. Your function should compare the results with the exact answer and make it simple to alter the function being integrated if required. 
+		\tcblower
+		Experiment with the accuracy obtained by altering the number of grid points taken.
+	\end{tcolorbox}
+\end{itemize}
+
+\subsection*{Solving linear ODEs}
+
+\begin{itemize}
+\item To solve an ODE numerically, we can use Matlab's built in tools called \textit{ode23} and \textit{ode45}. These solve an equation Typing
+\begin{lstlisting}
+>> help ode45
+\end{lstlisting}
+will give you plenty of information about the implementation of this routine, but I have included a full working example below to illustrate the usage. The code below solves the equation 
+\begin{displaymath}
+\frac{dy}{dt} = \cos(t); \hspace{3mm} y(0) = 2
+\end{displaymath}
+on the interval $[0, 2\pi]$.
+\begin{lstlisting}
+%Initialise solution parameters
+a = 0; b = 2*pi; %Interval end points
+y0 = 2; %Initial condition
+
+[t23,y23] = ode23(@func,[a b],y0); %Solve using ode23
+
+function f = func(t,y)
+    f = cos(t); %right hand side.
+end
+\end{lstlisting}
+
+\begin{tcolorbox}[title=Task]
+Implement the routine above and also include the solution from \textit{ode45}. Compare the solutions to the exact solution $y = 2 + \sin(t)$. What do you notice? Which is more accurate?
+\end{tcolorbox}
+
+\item You can also use \textit{ode23/45} to solve second or higher order linear ODEs if you reformulate them as linear systems of ODEs first. Assume we have
+\begin{align*}
+y'' + \exp(t)y' + ty(t) = 3\sin(2t) \\
+y(0) = 2; \hspace{3mm} y'(0) = 8
+\end{align*}
+in the interval $[0, 4]$. Then we can let $x_1 = y$ and $x_2 = y'$ and write this as 
+\begin{align*}
+x_1' &= x_2 \\
+x_2' &=  -tx_1 - \exp(t)x_1 + 3\sin(2t) \\
+x_1&(0) = 2; \hspace{3mm} x_2(0) = 8
+\end{align*}
+\item We can then solve this system in a similar way to the first order case except now we will get a \textit{vector} of solutions. A full working script is below
+\begin{lstlisting}
+function ode
+
+%Initialise solution parameters
+a = 0; b = 4; %Interval end points
+x0 = 2; x1 = 8; %Initial conditions
+
+[t23,x23] = ode23(@func,[a b],[x0,x1]); %Solve using ode23
+
+%Plots
+plot(t23,x23(:,1),'b');
+xlabel('t'); ylabel('y(t)'); xlim([min(t23) max(t23)]);
+
+end
+
+function f = func(t,x)
+    f = zeros(2,1); % since output must be a column vector
+    f(1) = x(2); 
+    f(2) = -t*x(1)-exp(t)*x(2)+3*sin(2*t);
+end
+\end{lstlisting}
+\item Note that the solution $y$ is stored in $x(:,1)$, while $y'$ would be stored in $x(:,2)$.
+\begin{tcolorbox}[title=Task]
+Implement the routine above for \textit{ode45}. Plot both solutions on the same axis and compare.
+\end{tcolorbox}
+\end{itemize}
+
+\subsection*{Newton's method}
+
+\begin{itemize}
+\item Given an equation $f(x) = 0$, where $f$ is differentiable, we can iterate towards the root $x_r$ by means of Newton's method in the following way
+\begin{displaymath}
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+\end{displaymath} 
+for some initial guess $x_0$. Provided we have a good initial guess, this will produce approximate solutions to any degree of accuracy required. In some cases, Newton's method requires the guess $x_0$ to be \textit{fairly close} to the true solution - something which is not always easy to do.
+\begin{tcolorbox}[title=Task]
+		Write a code that implements Newton's method for $f(x) = 0$ in the following cases:
+		\begin{itemize}
+		\item $f(x) = x^2 - 5$ with starting guess $x_0 = 2$.
+		\item $f(x) = \sin(x)+x\cos(x)$ with starting guess $x_0 = 1.5$. Try the same function with $x_0 = 1$. What do you notice? Is this valid?
+		\end{itemize}
+		\tcblower
+		Your code should be independent of your choice of function. Try to write the Newton method as its own function, and call your input functions separately. You should produce a table of the error in successive iterations and a plot of the convergence. In the first case, plot also the exact solution $x_r = \sqrt{5}$ and check your results. You can assume you have convergence when $|x_{n+1} - x_n| < 10^{-8}$
+	\end{tcolorbox}
+\end{itemize}
+
+\subsection*{Finite Differences}
+
+\begin{itemize}
+\item Finite difference methods are a class of solution methods used widely in applications to solve complicated systems of ODEs.
+\item By the process of discretising an ODE, we essentially replace the problem of finding
+the exact, continuous solution with the problem of finding the values of
+the solution at specified discrete points in space and time by deriving and solving an
+appropriate set of algebraic equations. This discrete problem is only an approximation
+to the problem, which improves as we increase the number of points we use.
+\item A crucial step in the finite difference method (FDM) is the approximation of derivatives by finite differences (FD), i.e. the replacement of derivatives by some algebraic
+formula.
+\item The method relies on Taylor series expansions and I won't go into too much detail here. However, it does not take much thought to arrive at the following approximation for the derivative of a function $F$.
+\begin{displaymath}
+F'(x_n) \approx \frac{F(x_{n+1}) - F(x_n)}{x_{n+1}-x_n}
+\end{displaymath}
+which is basically just the GCSE formula $m = \frac{\Delta y}{\Delta x}$. This is called the \textit{forward-difference formula} and is \textit{first-order accurate}. This means that if we increase the resolution by $\frac{1}{10}$ then the accuracy of the solution also increases by $\frac{1}{10}$. This is not considered very accurate, and as such is rarely used.
+\item The expression can be similarly derived by Taylor series expansions around $x_n$ and it is not much of a stretch to imagine a formula in the opposite direction, namely 
+\begin{displaymath}
+F'(x_n) \approx \frac{F(x_{n}) - F(x_{n-1})}{x_{n}-x_{n-1}}
+\end{displaymath}
+This is called the \textit{backward-difference formula} and is also first-order accurate. These two can be combined into a single, second-order accurate formula 
+\begin{displaymath}
+F'(x_n) \approx \frac{F(x_{n+1}) - F(x_{n-1})}{2h}
+\end{displaymath}
+where $h := x_{n}-x_{n-1}$. This is called the \textit{central difference formula}.
+\item Similar formulae exist for higher order derivatives which we won't derive, but we state the second-order accurate central difference approximation to the second derivative as 
+\begin{displaymath}
+F''(x_n) \approx \frac{F(x_{n+1}) - 2F(x_n)  + F(x_{n-1})}{h^2}
+\end{displaymath}
+
+\end{itemize}
+
+\subsubsection{An example with Matlab implementation}
+
+\begin{itemize}
+\item Suppose that we want to solve the boundary value problem 
+\begin{displaymath}
+u'' = f(x), \hspace{3mm} x \in (0,1)
+\end{displaymath}
+where we set
+\begin{align*}
+f(x) &= \pi^2\sin(\pi x) \\
+u(0) &= 0; \hspace{3mm} u(1) = 1
+\end{align*}
+This has exact solution $u_e = x - \sin(\pi x)$ which we will use later to compare results.
+\item We set up the grid in the $x$ direction in the usual way 
+\begin{lstlisting}
+N = 10; 
+x = linspace(0,1,N+1); %N+1 domain points (gives spacing h = 1/N)
+h = x(2)-x(1); %gives nodal spacing
+\end{lstlisting}
+\item At each \textit{interior} point $x_j$, $(j = 1,\ldots,N-1)$ in the domain, we can approximate the derivative $u''$ using our central difference formula as follows
+\begin{displaymath}
+\frac{U_{i+1} - 2U_i + U_{i-1}}{h^2} = f(x_i) \implies U_{i+1} - 2U_i + U_{i-1} = h^2f(x_i)
+\end{displaymath}
+Thus we can write the resulting algebraic system as (convince yourself this is correct!)
+\begin{displaymath}
+\left(\begin{matrix}
+  1 & -2 & 1 & 0 & 0 & \ldots & 0 & 0 & 0 \\
+  0 & 1 & -2 & 1 & 0 & \ldots & 0 & 0 & 0 \\
+  0 & 0 & 1 & -2 & 1 & \ldots & 0 & 0 & 0 \\
+  \vdots & \vdots & \vdots &  &  & & \vdots & \vdots & \vdots \\
+  0 & 0 & 0 & \ldots & 1 & -2 & 1 & 0 & 0 \\
+  0 & 0 & 0 & \ldots & 0 & 1 & -2 & 1 & 0 \\
+  0 & 0 & 0 & \ldots & 0 & 0 & 1 & -2 & 1 \\
+ \end{matrix}\right)
+ \left(\begin{matrix}
+ U_0 \\
+ U_1 \\
+ U_2 \\
+ U_3 \\
+ \vdots \\
+ U_{N-3} \\
+ U_{N-2} \\
+ U_{N-1} \\
+ U_N \\
+ \end{matrix}\right)
+ = h^2\left(\begin{matrix}
+  f_1 \\
+  f_2 \\
+  f_3 \\
+  \vdots \\
+  f_{N-3} \\
+  f_{N-2} \\
+  f_{N-1} \\
+  \end{matrix}\right)
+\end{displaymath}
+\item However, we already know the solutions at nodes $U_0 = u(0) = 0$ and $U_N = u(1) = 1$ so the first and last columns may be transferred to the right hand side to give
+\begin{displaymath}
+\left(\begin{matrix}
+-2 & 1 & 0 & 0 & \ldots & 0 & 0 \\
+1 & -2 & 1 & 0 & \ldots & 0 & 0 \\
+0 & 1 & -2 & 1 & \ldots & 0 & 0 \\
+\vdots & \vdots &  &  &  & \vdots & \vdots \\
+0 & 0 & \ldots & 1 & -2 & 1 & 0 \\
+0 & 0 & \ldots & 0 & 1 & -2 & 1 \\
+0 & 0 & \ldots & 0 & 0 & 1 & -2 \\
+\end{matrix}\right)
+\left(\begin{matrix}
+U_1 \\
+U_2 \\
+U_3 \\
+\vdots \\
+U_{N-3} \\
+U_{N-2} \\
+U_{N-1} \\
+\end{matrix}\right)
+= h^2\left(\begin{matrix}
+f_1 \\
+f_2 \\
+f_3 \\
+\vdots \\
+f_{N-3} \\
+f_{N-2} \\
+f_{N-1} \\
+\end{matrix}\right) - 
+u(0)\left(\begin{matrix}
+1 \\
+0 \\
+0 \\
+\vdots \\
+0 \\
+0 \\
+0 \\
+\end{matrix}\right) - 
+u(1)\left(\begin{matrix}
+0 \\
+0 \\
+0 \\
+\vdots \\
+0 \\
+0 \\
+1 \\
+\end{matrix}\right)
+\end{displaymath}
+\item By doing so, we isolate the unknown nodal values $U_i$, for $i = 1,\ldots,N−1$, on the left hand side, casting the global system of equations in the form $Au = g$.
+\item To convert this into a MATLAB script, the main difficulty is in the construction of the matrix A. To do this we will use the \textit{diag} command which we introduced earlier. You could also do it with for loops, although there is no need here.
+\begin{lstlisting}
+% A diagonal matrix with -2 on the diagonal
+D0 = -2*diag(ones(N-1,1));
+
+% A matrix with 1 along the 1st superdiagonal
+D1 = diag(ones(N-2,1),1); %
+
+% A matrix with 1 along the 1st subdiagonal
+D2 = diag(ones(N-2,1),-1);
+
+% Construct the full matrix
+A = D0 + D1 + D2;
+
+% The right hand side of the BVP (x(2:N) gives interior nodes)
+f = pi^2*sin(pi*x(2:N));
+
+% The right hand side of the linear system
+g = h^2*f;
+g(1) = g(1) - 0; %not necessary, but illustrative
+g(N-1) = g(N-1) - 1; %from boundary conditions
+g = g'; %transpose for backslash solver
+\end{lstlisting}
+\clearpage
+\item Finally we are left to solve and plot the solution
+\begin{lstlisting}
+u(1) = 0; u(N+1) = 1; %sets boundary conditions 
+u(2:N) = A\g; %solves the system Au = g
+plot(x,u)
+\end{lstlisting}
+
+\begin{tcolorbox}[title=Task]
+Implement the above code in Matlab. Plot the result against the exact solution and quantify the error. Experiment with altering the value of $N$. Plot both exact solution and approximate solution on the same axes - use circles to denote the points at which the finite difference approximation is taken.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task]
+Use finite difference methods to solve the \textit{convection-diffusion equation}
+\begin{displaymath}
+-\epsilon u''(x) + \beta u'(x) = 0; \hspace{3mm} u(0) = 1, \hspace{3mm} u(1) = 0
+\end{displaymath}
+and compare against the exact solution $u(x) = \left(\frac{\exp\left(\frac{\beta}{\epsilon}\right)-\exp\left(\frac{\beta}{\epsilon}\right)}{\exp\left(\frac{\beta}{\epsilon}\right)-1}\right)x$
+\tcblower
+Experiment with changing the values of $\epsilon$ and $\beta$. Start with $N=10$ and $\epsilon = 0.1$, $\beta = 0.5$. Then try $\epsilon = 0.01$, $\beta = 0.5$. What do you notice? Can you work out when \& why this happens? \textit{Hint: The ratio $\frac{\beta h}{\epsilon}$ is important}.
+\end{tcolorbox}
+
+\end{itemize}
+
+\subsection*{Spectral Methods}
+
+Spectral methods and solving odes using Chebyshev  methods - differentiation matrices and the like. 
+
+Curve fitting - spline and ppval.
+
+\section*{Extra Ideas}
+
+Pathological examples. 
+
+Some software development techniques. Commenting, portability and readability.
+
+Task: Write unseen program. Give to friend. Do they understand it?
+
+\end{document}
