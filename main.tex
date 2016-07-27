@@ -25,6 +25,8 @@
 \usepackage{listings}
 \usepackage{tcolorbox}
 
+\tcbset{colback=blue!5!white,colframe=blue!50!black}
+
 \linespread{1.5}
 
 \title{MATLAB - An Introduction for Mathematicians}
@@ -452,7 +454,11 @@ Elapsed time is 0.040788 seconds.
 \subsection*{Solving linear ODEs}
 
 \begin{itemize}
-\item To solve an ODE numerically, we can use Matlab's built in tools called \textit{ode23} and \textit{ode45}. These solve an equation Typing
+\item To solve an ODE numerically, we can use Matlab's built in tools called \textit{ode23} and \textit{ode45}. These can be used to solve equations of the form 
+\begin{displaymath}
+\frac{dy}{dt} = f(t); \hspace{3mm} y(y_0) = t_0
+\end{displaymath}
+or even higher order linear ODEs and systems of ODES. Typing
 \begin{lstlisting}
 >> help ode45
 \end{lstlisting}
