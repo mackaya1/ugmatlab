@@ -4,7 +4,7 @@
   What is it?
   -----------
 
-  These files relate to the 2016/2017 edition of the undergraduate Matlab course. m-files can be found in the /programs directory. The pdf version of the course notes can be found in main.pdf.
+  These files relate to the 2016/2017 edition of the undergraduate Matlab course. m-files can be found in the /programs directory. The pdf version of the course notes can be found in docs/main.pdf.
 
   The Latest Version
   ------------------
@@ -15,7 +15,7 @@
   -------------
 
   The documentation available as of the date of this release is
-  included in PDF format as main.pdf.
+  included in PDF format as docs/main.pdf.
 
   Installation
   ------------
