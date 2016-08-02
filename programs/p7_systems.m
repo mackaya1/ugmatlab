@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program solves the system of equations       %
 %          3x + 4y + 7z = 32                        %

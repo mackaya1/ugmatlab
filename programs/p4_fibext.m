@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program shows the Fibonacci sequence         %
 % converging to the golden ratio.                   %

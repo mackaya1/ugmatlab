@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program prints the Fibonacci sequence for N  %
 % terms. N is defined on line 8.                    %

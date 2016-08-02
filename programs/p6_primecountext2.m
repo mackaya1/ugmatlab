@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program uses the external function primefn   %
 % and compares prime counting formulae Li and       %

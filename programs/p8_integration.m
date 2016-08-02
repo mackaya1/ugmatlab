@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program calculates the integral of           %          
 % function across an interval using trapz and       %

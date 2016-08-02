@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program counts and lists the number of       %
 % prime numbers below a user defined N. N is        %

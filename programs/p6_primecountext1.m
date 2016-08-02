@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program uses the external function primefn   %
 % and prints prime numbers below a user defined     %

@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program loops through the numbers 1 to N and %
 % displays multiples of 3 to the command line. N is %

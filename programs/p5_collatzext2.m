@@ -1,3 +1,5 @@
+clear; %clears workspace
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % This program runs the Collatz algorithm for user  %
 % defined N. N is defined on line 8.                %
