@@ -41,7 +41,7 @@
 \item Matlab is a computational software package originally written by numerical analyst Clive Moler in the 1970s. 
 \item Unlike other programming languages used in numerical computations like Fortran and C++, Matlab makes use of highly developed external libraries and functions which allows you to relieve yourself of many of the mundane tasks associated with programming. For example, Matlab has built in functions that can calculate matrix inverses, products and eigenvalues. All of these things would have to be hard-coded into a Fortran program, eating up time that could be spent on more important issues. 
 \item With a very readable and easy to navigate interface, Matlab is a great starting tool for anyone interested in programming. 
-\item Although it has many qualities, nothing is perfect and what it gains in usability it loses on computational time. A program written in Fortran or C++ will run a lot faster in general than the same program written in Matlab, something which may be of concern for very large programs. However, this is most certainly not of concern here, and all of the programs written in this course take only a fraction of a second to run on a workstation.
+\item Although it has many qualities, nothing is perfect and what it gains in usability it loses on computational time. A program written in Fortran or C++ will run a lot faster in general than the same program written in Matlab, which may be of concern for very large programs. This, however, is most certainly \textit{not} of concern here, and all of the programs written in this course take only a fraction of a second to run on a workstation.
 \item It should be noted that these notes are designed only as a companion to the classes which they accompany - a student should not expect to gain any insight from these notes without attending class.
 \item E-mail corrections and/or comments are always welcome and can be directed to \url{MorganSN@cardiff.ac.uk}
 \end{itemize}
@@ -56,8 +56,8 @@
 \item A student Matlab subscription is currently £29\footnote{Correct as of 19/07/2016} and is highly worth the spend. If you are currently a postgraduate student at Cardiff then you can get the academic license key for installation on your home computer from Paul Jewell (M/0.10 - \url{jewellp@cardiff.ac.uk}) for free.
 \item If you would rather not pay then you can either use Matlab at any of the workstations around the university, available through \textit{Cardiff Apps}, or you can use GNU Octave.
 \item GNU Octave is an open-source version of Matlab which uses many of the similar commands. However, as with everything in life, you get what you pay for and thus, Octave is buggy, slow and lacking certain features that may make your life a misery.
-\item Installing Octave can also be a pain, although it is described in detail on the web at \url{https://www.gnu.org/software/octave/download.html}. If you are stuck with the installation, email \url{MorganSN@cardiff.ac.uk} and I'll help in any way I can.
-\item Installing octave on Ubuntu is easy and can be accomplished with
+\item Installing Octave on Windows can also be a pain, although it is described in detail on the web at \url{https://www.gnu.org/software/octave/download.html}. If you are stuck with the installation, email \url{MorganSN@cardiff.ac.uk} and I'll help in any way I can.
+\item Installing Octave on Ubuntu is easy and can be accomplished with
 \begin{lstlisting}[language=bash]
   $ sudo add-apt-repository ppa:octave/stable
   $ sudo apt-get update
@@ -75,7 +75,7 @@
     \caption*{}
 \end{figure}
 \item The main window in the centre is the \textit{command window} and contains the \textit{command prompt}. You can enter commands directly at the command prompt and Matlab will give some sort of output. The left hand side shows the current directory and the folder structure. This will be important later.
-\item Calculations can be carried out in the usual way and follow the usual rules for ordering of operations. The figure below shows some example commands. You should also note now that the \textit{workspace} on the right hand side contains a new value. This \textit{ans} variable takes the value of the last entered command - in this case, $5.75$.
+\item Calculations can be carried out in the usual way and follow the usual rules for ordering of operations. The figure below shows some example commands. After running these commands, you should note now that the \textit{workspace} on the right hand side contains a new value. This \textit{ans} variable takes the value of the last entered command - in this case, $5.75$.
 \begin{figure}[h]		
 	\centering
 	\includegraphics[width=1\textwidth]{matlabcalc.png} 
@@ -200,12 +200,12 @@ end
 \begin{itemize}
 \item $==$ (is equal to)
 \item $\sim =$ (is not equal to)
-\item $>=$ $>$ (is greater than or equal to, is greater than, similar for less than)
+\item $>=$, $>$ (is greater than or equal to, is greater than, similar for less than)
 \end{itemize}
 \item There is another type of loop called a \textit{while} loop. These are similar to for loops but are particularly advantageous when you don't know how many iterations you need to end the loop. An example is below and one will need to be used in the tasks that follow.
 \clearpage
 \begin{lstlisting}
-j = 1; %initialsise the variable j to have value 1
+j = 1; %initialsise the variable j to have value 1 - why?
 while j <= 10 %loop until j reaches 10
     j %output j at each step
     j = j + 1; %add one to j and loop again
