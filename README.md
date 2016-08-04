@@ -1,5 +1,5 @@
 
-                          Cardiff University Matlab UG course - Scott Morgan 2016
+                          Cardiff University Matlab course - Scott Morgan 2016
 
   What is it?
   -----------
