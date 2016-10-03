@@ -41,7 +41,7 @@
 \item Matlab is a computational software package originally written by numerical analyst Clive Moler in the 1970s. 
 \item Unlike other programming languages used in numerical computations like Fortran and C++, Matlab makes use of highly developed external libraries and functions which allows you to relieve yourself of many of the mundane tasks associated with programming. For example, Matlab has built in functions that can calculate matrix inverses, products and eigenvalues. All of these things would have to be hard-coded into a Fortran program, eating up time that could be spent on more important issues. 
 \item With a very readable and easy to navigate interface, Matlab is a great starting tool for anyone interested in programming. 
-\item Although it has many qualities, nothing is perfect and what it gains in usability it loses on computational time. A program written in Fortran or C++ will run a lot faster in general than the same program written in Matlab, which may be of concern for very large programs. This, however, is most certainly \textit{not} of concern here, and all of the programs written in this course take only a fraction of a second to run on a workstation.
+\item Although it has many qualities, Matlab is not a perfect package for all computational tasks and what it gains in usability it loses on computational time. A program written in Fortran or C++ will run a lot faster in general than the same program written in Matlab, which may be of concern for very large programs. This, however, is most certainly \textit{not} of concern here, and all of the programs written in this course should take only a fraction of a second to run on a workstation.
 \item It should be noted that these notes are designed only as a companion to the classes which they accompany - a student should not expect to gain any insight from these notes without attending class.
 \item E-mail corrections and/or comments are always welcome and can be directed to \url{MorganSN@cardiff.ac.uk}
 \end{itemize}
@@ -50,13 +50,15 @@
 \subsection*{Installing Matlab}
 
 \begin{itemize}
-\item It would be superfluous to repeat the already thorough installation guidelines present on the MathWorks website, found here: \\
-\small \url{http://uk.mathworks.com/help/install/ug/install-mathworks-software.html}
+\item A student Matlab subscription is currently £29\footnote{Correct as of 19/07/2016} and is highly worth the spend. However, if you are currently a student at Cardiff then you can get the academic license key for installation on your home computer for free. The download and install process is described in detail on the Intranet at \\
+\footnotesize \url{https://intranet.cardiff.ac.uk/students/support-and-services/technical-help-and-support/software-support/software-for-home-use/matlab} \\
 \normalsize
-\item A student Matlab subscription is currently £29\footnote{Correct as of 19/07/2016} and is highly worth the spend. If you are currently a postgraduate student at Cardiff then you can get the academic license key for installation on your home computer from Paul Jewell (M/0.10 - \url{jewellp@cardiff.ac.uk}) for free.
-\item If you would rather not pay then you can either use Matlab at any of the workstations around the university, available through \textit{Cardiff Apps}, or you can use GNU Octave.
-\item GNU Octave is an open-source version of Matlab which uses many of the similar commands. However, as with everything in life, you get what you pay for and thus, Octave is buggy, slow and lacking certain features that may make your life a misery.
-\item Installing Octave on Windows can also be a pain, although it is described in detail on the web at \url{https://www.gnu.org/software/octave/download.html}. If you are stuck with the installation, email \url{MorganSN@cardiff.ac.uk} and I'll help in any way I can.
+Note that you will need to be logged into the Intranet to access this page. \\ 
+There is also a thorough guide to installation from MathWorks, available at \\
+\footnotesize \url{http://uk.mathworks.com/help/install/ug/install-mathworks-software.html} \normalsize
+\item Alternatively, you can use Matlab at any of the workstations around the university, available through \textit{Cardiff Apps}, or you can use GNU Octave.
+\item GNU Octave is free, open-source software which can run many Matlab commands. However, as with everything in life, you get what you pay for and thus, Octave can be buggy, slow and is lacking certain features that may make your life a misery.
+\item Installing Octave on Windows can also be a pain, although it is described in detail on the web at \url{https://www.gnu.org/software/octave/download.html}.
 \item Installing Octave on Ubuntu is easy and can be accomplished with
 \begin{lstlisting}[language=bash]
   $ sudo add-apt-repository ppa:octave/stable
@@ -113,7 +115,7 @@ is a great place to start learning about what everything does.
 \item Before we start getting into the basics of coding, there are a few remarks to make.
 \begin{itemize}
 \item There is more than one way to write a program! People have \textit{styles}, as you'll begin to see soon. If your program is different to mine then that's not a problem - you will develop your own way of doing things, your own way of naming things and as long as you're consistent with yourself then it won't matter. Someone once described it to me as learning a language, but with an accent - we can all understand each other but we say things in a slightly different way! It's like that with programming, don't be worried if your program looks different - if the results are the same it shouldn't matter too much.
-\item \textit{However}, that being said, you should always strive to write code that is \textit{readable by another person}! You should always write comments explaining what complicated lines do and write your algorithms in a coherent way. This is not exclusive to your code being readable by someone else either - if you write a code and don't look at it for a few months, if it's not properly commented and explained then you will not have any idea what it does the next time you look at it! This has happened to me so many times that I am determined to not let you make that mistake.
+\item \textit{However}, that being said, you should always strive to write code that is \textit{readable by another person}! You should always write comments explaining what complicated lines do and write your algorithms in a coherent way. This is not exclusive to your code being readable by someone else either - if you write a code that is not properly commented and don't look at it for a few months, you will not have any idea what it does the next time you look at it! This has happened to me so many times that I am determined to not let you make that mistake.
 \end{itemize}
 \item A \textit{comment} in Matlab is achieved with the \textit{\%} sign:
 \begin{lstlisting}
@@ -136,7 +138,7 @@ is a great place to start learning about what everything does.
 This will give the variable \textit{x} the value 3, which can then be used in future calculations such as
 %
 \begin{lstlisting}
->> x = 3; %assigns the value 3 to he variable x
+>> x = 3; %assigns the value 3 to the variable x
 >> 3 + x %uses the assigned value in the calculation 3+x 
 ans =
 	6
@@ -220,6 +222,8 @@ end
   \begin{lstlisting}
   >> help mod
   \end{lstlisting}
+  \tcblower
+  \textit{Extension:} Extend the program so that it reproduces the game "Fizzbuzz". Have the code display the word "Fizz" when it encounters a multiple of 3, "Buzz" on a multiple of 5 and "FizzBuzz" on a multiple of both 3 and 5.
 \end{tcolorbox}
 
 \begin{tcolorbox}[title=Task]
