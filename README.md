@@ -1,10 +1,10 @@
 
-                          Cardiff University Matlab course - Scott Morgan 2016
+                          Cardiff University Matlab course - Scott Morgan 2017
 
   What is it?
   -----------
 
-  These files relate to the 2016/2017 edition of the Cardiff University undergraduate Matlab course. Program m-files can be found in the /programs directory. The current version of the course notes can be found in docs/main.pdf.
+  These files relate to the 2017/2018 edition of the Cardiff University undergraduate Matlab course. Program m-files can be found in the /programs directory. The current version of the course notes can be found in docs/main.pdf.
 
 
   Documentation
@@ -21,4 +21,4 @@
   Contacts
   --------
 
-  The main point of contact for anything regarding this course is MorganSN@cardiff.ac.uk
+  The main point of contact for anything regarding this course is MorganSN@cardiff.ac.uk. The main course page is available at http://scott3142.com/ugmatlab
