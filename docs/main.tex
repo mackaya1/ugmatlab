@@ -1351,8 +1351,10 @@ Throughout this section of the course, we will run through a \textit{mini} proje
 
 \subsection*{The Problem}
 Consider throwing a ball from some height $h$, at some angle $\alpha$, and at some velocity $v$.\\
-INSERT IMAGE LATER\\
-Assuming no air resistance and using Newton's second law ($F=ma$) we have the following equation of motion for the path of the ball (modelling the ball as a particle)
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{Projectile.pdf}
+\end{figure}
+\noindent Assuming no air resistance and using Newton's second law ($F=ma$) we have the following equation of motion for the path of the ball (modelling the ball as a particle)
 \begin{equation*}
 m\ddot{\*x} = -mg\*e_2,\,\, \text{ s.t }\,\, \*x(0) = h\*e_2, \, \dot{\*x}(0) = v\left(\cos(\alpha)\*e_1+\sin(\alpha)\*e_2\right)
 \end{equation*} 
@@ -1450,7 +1452,7 @@ Using MATLAB we are able to visualise the projectile motion as a movie, however,
     end
 \end{lstlisting}
 
-\noindent The print command can be modified in a large variety of ways, the important part of this is that the loop now prints the png files into the Images folder. \textbf{You must ensure that there is a folder called Images in your path}. Once the images are printed, you can combine them into a movie by running the MovieMaker script, and the output will be an avi file.
+\noindent The print command can be modified in a large variety of ways, the important part of this is that the loop now prints the png files into the Images folder. \textbf{You must ensure that there is a folder called Images in your path}. Once the images are printed, you can combine them into a movie by running the MovieMaker script, and the output will be an avi file.\\
 
 \begin{tcolorbox}[title=Task (Optional)]
 Use the script ProjectileMotion3 and MovieMaker to create the avi file. Using ProjectileMotion2a, include the print command and the axis command and make a movie from the Earth and Moon comparison.
