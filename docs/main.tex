@@ -27,6 +27,8 @@
 
 \tcbset{colback=blue!5!white,colframe=blue!50!black}
 
+\def\*#1{\mathbf{#1}}
+
 \linespread{1.5}
 
 \title{MATLAB - An Introduction for Mathematicians}
@@ -1344,5 +1346,174 @@ u(0)=1\qquad{u}(1)=e
 \end{equation*}
 \end{tcolorbox}
 
+\section*{Danny's Additions}
+Throughout this section of the course, we will run through a \textit{mini} project that takes you through the course of developing a solver in MATLAB from start to end, and builds on the skills you have already learnt from this course. The problem we are considering in this case will be a simple problem (you can skip the maths), and we will be creating plots, videos, and a simple GUI (graphical user interface) for this problem.
+
+\subsection*{The Problem}
+Consider throwing a ball from some height $h$, at some angle $\alpha$, and at some velocity $v$.\\
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{Projectile.pdf}
+\end{figure}
+\noindent Assuming no air resistance and using Newton's second law ($F=ma$) we have the following equation of motion for the path of the ball (modelling the ball as a particle)
+\begin{equation*}
+m\ddot{\*x} = -mg\*e_2,\,\, \text{ s.t }\,\, \*x(0) = h\*e_2, \, \dot{\*x}(0) = v\left(\cos(\alpha)\*e_1+\sin(\alpha)\*e_2\right)
+\end{equation*} 
+where $\displaystyle \ddot{\*x} = \frac{d^2x}{dt^2}$. Integrating twice and applying the initial conditions yields the answer
+\begin{equation*}
+\*x = tv\cos(\alpha)\*e_1+\left(-\frac{t^2 g}{2}+tv\sin(\alpha)+h\right)\*e_2,
+\end{equation*}
+or in the more readable form
+\begin{align}
+x(t) &= tv\cos(\alpha),\label{EqMot1}\\
+y(t) &= -\frac{t^2 g}{2}+tv\sin(\alpha)+h.\label{EqMot2}
+\end{align}
+The above equations will give the $x$ and $y$ positions through time, and ultimately will be used in MATLAB when we plot the trajectory of the ball. However, to ensure that we plot for the time of flight, we must determine the landing time of the ball. To find this value, we must find the time at which $y = 0$. If $h>0$ we know that $y$ can be zero only once. Alternatively, if the projectile is launched from ground level we have to take the second instance that $y=0$, either way we arrive with the conclusion:
+\begin{equation}\label{TimeLand}
+t_{\text{land}} = \frac{v\sin(\alpha)+\sqrt{v^2\sin^2(\alpha)+2gh}}{g}.
+\end{equation}
+We now have all that we need to implement in MATLAB.
+\subsection*{Implementation of the Equations}
+There are many ways of implementing equations into MATLAB, but we are going to make use of \textbf{Anonymous Functions} to show another way of including functions into your MATLAB scripts. To illustrate the use of an anonymous function, we can use the command line
+\begin{lstlisting}
+>> f = @(x) x.^2; % To make the function anonymous, use @
+>> f(2) % Call on the anonymous function
+4
+>> f(3) % Try 3^2
+9
+\end{lstlisting}
+We can now begin on implementing the projectile motion equations, and use plotting to visualise the path of the ball.\\
+ 
+\begin{tcolorbox}[title=Task (Moderate)]
+Using ProjectileMotion1 inside the tasks folder, modify the script and include the correct equations and insert some initial parameters. Change the parameters, does the graph make physical sense?
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Task (Easy)]
+Gravitational acceleration on the moon is given by $g = 1.622ms^{-1}$, change the current script to incorporate this new constant. How do the results change? Is it what you expect?
+
+\tcblower
+
+Extension: Experiment with the values of $g$. What happens if gravity is very weak, or very strong? Is this as you'd expect? Could you use this model to calculate the escape velocity of Earth?
+
+\end{tcolorbox}
+
+\subsection*{Plotting as Time Progresses}
+The script ProjectileMotion1 produces a still image of the trajectory of the ball, what if we want to see a movie of how the ball moves through the air as time progresses? Can we do this?\\
+
+\noindent Indeed we can. In fact, we only need to make small modifications to the previous script which includes a plotting over a loop. Below is the loop you will find within script ProjectileMotion2.
+
+\begin{lstlisting}
+    for i = 1:length(tspan)
+    
+        T(i) = tspan(i); % Vector of time steps up to length
+        
+        % Plot function and include axis labels
+        plot(x(T),y(T),'b-','linewidth',1.5)
+        xlabel('$x$ distance','interpreter','latex')
+        ylabel('$y$ distance','interpreter','latex')
+        title('Distance travelled by projectile')
+        
+        % Set x and y limits to keep axis fixed
+        xlim([0 max(x(tspan))]); 
+        ylim([0 max(y(tspan))+1]);
+        
+        drawnow
+        
+    end
+\end{lstlisting}
+
+\noindent In essence, this loop generates a new vector of all time steps included in the first command within the loop. Note that the plotting functions are now different, and include this new vector. This loop then plots the function, draws the graph, and then loops around to include the next time step.\\
+
+\begin{tcolorbox}[title=Task (Moderate)]
+The script ProjectileMotion2 contains a completed script that will plot a movie of projectile motion on Earth. The script ProjectileMotion2a plots Earth's projectile, and compares it to the Moon's. The task is to modify ProjectileMotion2a to make it work.
+\end{tcolorbox}
+
+\subsection*{Creating a Movie}
+Using MATLAB we are able to visualise the projectile motion as a movie, however, what if we'd like to save this movie as an avi file to include in presentations? Fortunately, MATLAB has this capability with its own built in movie maker. However, I have often found in the past that this movie maker can be tricky to use, and produces videos with bad resolution if you follow MATLAB's guide.\\
+
+\noindent The best way to proceed is to print each frame as a separate png file (or other image format), and then use MATLAB's movie maker to combine these into a single avi file. To print the files, the modification is quite simple. First we need to ensure that all frames are the same size, and then we must print the current frame in the loop. The modifications can be seen below (full script is ProjectileMotion3).
+
+\begin{lstlisting}
+    ax = axis; % Ensure all images are equal size
+    
+    for i = 1:length(tspan)
+    
+        T(i) = tspan(i); % Vector of time steps up to length
+        
+        % Plot function and include axis labels
+        plot(x(T),y(T),'b-','linewidth',1.5)
+        xlabel('$x$ distance','interpreter','latex')
+        ylabel('$y$ distance','interpreter','latex')
+        title('Distance travelled by projectile')
+        
+        % Set x and y limits to keep axis fixed
+        xlim([0 max(x(tspan))]);
+        ylim([0 max(y(tspan))+1]);
+        
+        drawnow
+        
+        % Print the current frame as a png file
+        print(gcf,['Images/' num2str(i,'%0.3d')],'-dpng','-r300') 
+        
+    end
+\end{lstlisting}
+
+\noindent The print command can be modified in a large variety of ways, the important part of this is that the loop now prints the png files into the Images folder. \textbf{You must ensure that there is a folder called Images in your path}. Once the images are printed, you can combine them into a movie by running the MovieMaker script, and the output will be an avi file.\\
+
+\begin{tcolorbox}[title=Task (Optional)]
+Use the script ProjectileMotion3 and MovieMaker to create the avi file. Using ProjectileMotion2a, include the print command and the axis command and make a movie from the Earth and Moon comparison.
+\end{tcolorbox}
+
+\subsection*{Create a GUI}
+While creating a Graphical User Interface (GUI) is non-essential in terms of running MATLAB scripts, it can be a nice way of visualising your scripts and making it more usable for another person. More importantly it can be a way of combining many scripts into one and using them from a simple user interface which reads in options and produces the desired output. This guide is meant to be a quick introduction to GUI creation in MATLAB, and all the code will be supplied.\\
+
+\noindent To create a GUI you can proceed with two routes. The first way is to type \mcode{guide} into the command window which allows you to create a GUI graphically, the second is to create it programatically. There are pros and cons of both, and this is down to personal preference. However I feel that creating a GUI programatically allows for more control and precision over what you create. For this guide, we will create a GUI programatically, however, there are many tutorials for the graphical way on YouTube.\\
+
+\noindent The first step is to create a figure to hold the GUI inside
+\begin{lstlisting}
+    % This sets up the initial figure to place the GUI inside
+    S.f = figure('units','normalized','name',...
+    'Projectile Motion Solver','menubar','none',...
+    'numbertitle','off','resize','off');
+    
+    % Set up axis for options
+    axOptions = axes('units','normalized','position',[0 0 1 1]);
+\end{lstlisting}
+
+\noindent The options within the figure, and axes can be confusing to understand. I find that the best way to gather what they do is to modify them, and see how the GUI changes. The \textbf{key} option is to keep the units \mcode{normalized}, which means that the positions are on a scale of [0,1], i.e. \mcode{[0.5,0.5,0.1,0.2]} places the object in the center, with a width of 0.1, and a height of 0.2. To create entry user controlled buttons, and entry boxes we use the command
+\begin{lstlisting}
+S.name = uicontrol('style','edit','unit','normalized','position',...
+        [0.18,0.85,0.1,0.05],'fontsize',10,'string','2');
+\end{lstlisting}
+in this case we have created an edit box, where a user can input data which will be read into the solver (the initial value here is 2). You can create other ui controls, for example:
+\begin{itemize}
+\item \mcode{'style','slider'} - slider bar
+\item \mcode{'style','pop'} - creates a drop down menu
+\item \mcode{'style','pushbutton'} - creates a push button to run scripts
+\item \mcode{'style','check'} - creates a checkbox
+\item And many others!
+\end{itemize}
+Including all the ui controls can be fiddly, and usually takes time to place them correctly. However, once they are placed they are effectively useless unless you call on their values correctly. As an illustration the script ProjectileGUI implements these ui controls to plot the motion of a projectile using the previous scripts. The key element of this script is the run button, which is created by
+\begin{lstlisting}
+    % Run code
+    S.Run = uicontrol('style','pushbutton','unit','normalized',...
+    'position',[0.075,0.45,0.15,0.05],'fontsize',10,'string',...
+    'Run','callback',{@Run,S});
+\end{lstlisting}
+Notice that this has a callback, which basically means that once the button is pressed a function called Run is activated, and is fed in all the data through \mcode{S}. Below is half of the Run function
+\begin{lstlisting}
+function [] = Run(varargin)
+    S = varargin{3}; % Reads the list
+    
+    % Get values for projectile motion
+    alpha = get(S.Angle,'val'); % Obtain angle from slider bar
+    h = str2double(get(S.Height,'string')); % Convert string to number
+    v = str2double(get(S.Velocity,'string')); % Get velocity
+...
+\end{lstlisting}
+this function when used will read in all values using the list \mcode{S}, which is why we have named things \mcode{S.Name}. Once the list is read, we obtain the value by using \mcode{str2double(get(S.Name,'string'));}, which takes the string from the box and converts it to a number for MATLAB to use. \textbf{Note}: this may change if you assign the edit box a numerical value instead of a string, or if you use a checkbox where the output is binary.\\
+
+\begin{tcolorbox}[title=Task (Optional)]
+Using ProjectileGUI as an example, add in another box which controls variable gravity. i.e. create an edit box where you can choose the strength of gravity which is read in by the solver (solution given).
+\end{tcolorbox}
 
 \end{document}
