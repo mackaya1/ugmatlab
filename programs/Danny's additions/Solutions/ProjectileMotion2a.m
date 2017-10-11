@@ -27,10 +27,11 @@ function ProjectileMotion2a
         T(i) = tspan(i);
         Tmoon(i) = tspanMoon(i);
         
-        % Plot function and include axis labels
+        % Plot function and include axis labels and legend
         hold on
         p1 = plot(x(T),y(T,gEarth),'b-','linewidth',1.5);
         p2 = plot(x(Tmoon),y(Tmoon,gMoon),'r-','linewidth',1.5);
+        legend('Earth','Moon');
         
         drawnow
         
@@ -40,7 +41,7 @@ function ProjectileMotion2a
 
         xlabel('$x$ distance','interpreter','latex')
         ylabel('$y$ distance','interpreter','latex')
-        title('Distance travelled by projectile')
+        title('Distance travelled by projectile')        
         
     end
 

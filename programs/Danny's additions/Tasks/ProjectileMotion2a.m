@@ -27,10 +27,11 @@ function ProjectileMotion2a
         T(i) = tspan(i);
         Tmoon(i) = $
         
-        % Plot function and include axis labels
+        % Plot function and include axis labels and legend
         hold on
         p1 = plot(x(T),y(T,gEarth),'b-','linewidth',1.5);
         p2 = plot($,$,'r-','linewidth',1.5);
+        legend('Earth','Moon');
         
         drawnow
         
