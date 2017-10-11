@@ -1,4 +1,4 @@
-function ProjectileGUI
+function ProjectileGUISolution
     % Graphical user interface for the projectile solver
 
     % This sets up the initial figure to place the GUI inside
