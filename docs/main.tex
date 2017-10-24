@@ -425,10 +425,21 @@ will give a good explanation of the methods used and the best practice usage of 
 	\end{align*}
 	and compare the time taken between backslash and inverse multiplication.
 	\tcblower
-	To measure the time taken by a script (in this case called \textit{test.m}), use the following
+	\begin{itemize}
+	\item To create the matrix above in Matlab, you can use the vector-type notation discussed above. In particular, the command
+	\begin{lstlisting}
+	>> A = [3 4 7; 1 5 2; 2 1 1];
+	\end{lstlisting}
+	will create the matrix on the left hand side, while
+	\begin{lstlisting}
+	>> b = [32; 17; 7];
+	\end{lstlisting}
+	will create the right hand side.
+	\item 	To measure the time taken by a script (in this case called \textit{test.m}), use the following
 	\begin{lstlisting}
 	>> tic, test; toc
 	\end{lstlisting}
+	\end{itemize}
 \end{tcolorbox}
 \item Hopefully the following example will convince you to use backslash! 
 \begin{lstlisting}
