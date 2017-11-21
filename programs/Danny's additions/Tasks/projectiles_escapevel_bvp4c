@@ -1,0 +1,79 @@
+function projectiles_escapevel_bvp4c(object)
+
+%gravitational constant
+G = 6.674e-11; 
+
+%radius of earth/moon/sun, mass of earth/moon/sun
+if strcmp(object,'earth')
+    R = 6.371e6; M = 5.972e24; %take v > 11200 for escape
+elseif strcmp(object,'moon')
+    R = 1.737e6; M = 7.34e22; %take v > 2380 for escape
+elseif strcmp(object,'sun')
+    R = 6.95700e8; M = 1.989e30; %take v > 618000 for escape
+else
+    R = 0; M = 0; %insert custom values here...
+end
+
+%initial height (m), initial velocity (m/s)
+h = 0; v = 5000;
+
+solinit = bvpinit(linspace(0,1),@ode_init);
+sol = bvp4c(@odefunc,@ode_bc,solinit);
+
+Tnew = 0; run = false;
+while run
+
+    solinit = bvpinit(sol,[0 Tnew]);
+    sol = bvp4c(odefunc,@ode_bc,solinit);    
+
+    %Plots
+    tplot = linspace(0,Tnew);
+    x = deval(sol,tplot);
+    xplot = x(1,:);
+    figure(1)
+    plot(tplot,xplot,'--b','linewidth',2); hold on; plot(tplot(end),x(1,end),'ko','markerfacecolor','r'); hold off;
+    xlabel('Time (s)'); ylabel('x distance (m)'); if Tnew > 0, axis([min(tplot)+0.5*min(tplot) max(tplot)+0.5*max(tplot) 0 max(xplot)+0.5*max(xplot)]); end 
+    
+%     %tracks derivative. Useful for determining escape velocity...
+%     figure(2)
+%     plot(tplot,x(2,:),'k','linewidth',2); hold on; plot(tplot(end),x(2,end),'ko','markerfacecolor','r'); hold off;
+%     xlabel('t'); ylabel('dx/dt'); 
+%     if Tnew > 0, axis([min(tplot)-0.25*min(tplot) max(tplot)+0.25*max(tplot) min(x(2,:))-0.25*min(x(2,:)) max(x(2,:))+0.25*max(x(2,:))]); end 
+    drawnow;
+    
+    Tnew = Tnew + v/100; %iteration procedure. Only necessary for plotting.
+    if ~isempty(xplot(xplot < 0))
+        run = false; 
+    end %end when x hits 0
+
+end
+
+    %Set up ODE system
+    function dx = odefunc(~,x)
+        
+        dx = zeros(2,1); % since output must be a column vector
+        
+        dx(1) = x(2);
+        dx(2) = -G*M/(R+x(1))^2;
+        
+        %x(1) = x, x(2) = x' => dx(1) = x', dx(2) = x''
+
+    end
+
+    %Set up boundary values
+    function res = ode_bc(ua,~)
+
+        res = [ua(1)-h;ua(2)-v];
+        
+        %x(0) = h, x'(0) = v;
+
+    end
+
+    %Set up inital guesses required by bvp4c - okay to set to zero
+    function uinit = ode_init(~)
+
+        uinit = [0;0];
+
+    end
+
+end
